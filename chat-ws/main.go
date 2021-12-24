@@ -15,7 +15,7 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/", rootHandler)
-	http.Handle("/", websocket.Handler(socketHandler))
+	http.Handle("/socket", websocket.Handler(socketHandler))
 	if err := http.ListenAndServe(listenAddr, nil); err != nil {
 		log.Fatal(err)
 	}
