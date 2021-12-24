@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"log"
+	"time"
 )
 
 var partner = make(chan io.ReadWriteCloser)
@@ -22,6 +23,8 @@ func match(c io.ReadWriteCloser) {
 	case p := <-partner:
 		// host a chat
 		chat(p, c)
+	case <-time.After(5 * time.Second):
+		chat(NewBot(), c)
 	}
 }
 
