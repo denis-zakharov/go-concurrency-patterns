@@ -1,6 +1,7 @@
 ### Go Concurrency Patterns by Rob Pike
 - [Video](https://www.youtube.com/watch?v=f6kdp27TYZs)
 - [Slides](https://talks.golang.org/2013/advconc.slide)
+- [Code](https://talks.golang.org/2012/concurrency/support)
 
 ### Advanced Concurrency Patterns by Sameer Ajmani
 - [Video](https://www.youtube.com/watch?v=QDDwwePbDtw)
@@ -81,3 +82,23 @@ leftmost <- 1 + (r1 <- 1 + 1)
 leftmost <- 1 + 2
 <- leftmost // result = 3
 ```
+
+### 10_system_interactions
+
+Let us construct the naive fake Google search:
+- send requests to search subsystems
+  - asyncronous
+  - replicated
+  - with timeout
+- mix the responses in some way
+- respond to a user
+
+### summary
+Goroutines and channels are big ideas. They're tools for program construction.
+
+But sometimes all you need is a reference counter.
+
+Go has "sync" and "sync/atomic" packages that provide mutexes, condition variables, etc.
+They provide tools for smaller problems.
+
+Often, these things will work together to solve a bigger problem.
