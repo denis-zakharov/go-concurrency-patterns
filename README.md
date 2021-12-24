@@ -10,7 +10,12 @@
 ### Share Memory by Communicating
 - [Codewalk](https://go.dev/doc/codewalk/sharemem/)
 
-## TOC
+### Chat-Roulette
+A toy example of concurrency usage.
+- [Video](https://vimeo.com/53221560)
+- [Slides](https://talks.golang.org/2012/chat.slide)
+
+## Go Concurrency Patterns TOC
 ### 01_goroutines
 A basic goroutine for asynchronous running.
 
