@@ -114,6 +114,8 @@ An example how to merge several subsriptions into one `feed` with cancellation.
 
 `pipeline_01` is a simple example how to chain computations of square numbers.
 
+`pipeline_02` is a combination of the fan-in and fan-out patterns into a pipeline.
+
 # Share Memory by Communicating
 - [Codewalk](https://go.dev/doc/codewalk/sharemem/)
 
