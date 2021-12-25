@@ -16,11 +16,11 @@ func walkFiles(done <-chan struct{}, root string) (<-chan string, <-chan error) 
 		// Close the paths channel after Walk returns.
 		defer close(paths)
 		// No select needed for this send, since errc is buffered.
-		errc <- filepath.Walk(root, func(path string, info fs.FileInfo, err error) error {
+		errc <- filepath.WalkDir(root, func(path string, d fs.DirEntry, err error) error {
 			if err != nil {
 				return err
 			}
-			if !info.Mode().IsRegular() {
+			if !d.Type().IsRegular() {
 				return nil
 			}
 			select {
