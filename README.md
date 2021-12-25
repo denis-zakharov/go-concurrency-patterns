@@ -116,6 +116,13 @@ An example how to merge several subsriptions into one `feed` with cancellation.
 
 `pipeline_02` is a combination of the fan-in and fan-out patterns into a pipeline.
 
+`pipeline_03` is an example of early stopping - producers stop when consumer wants to stop earlier.
+
+The guidelines for pipeline construction:
+
+- stages close their outbound channels when all the send operations are done.
+- stages keep receiving values from inbound channels until those channels are closed or the senders are unblocked.
+
 # Share Memory by Communicating
 - [Codewalk](https://go.dev/doc/codewalk/sharemem/)
 
