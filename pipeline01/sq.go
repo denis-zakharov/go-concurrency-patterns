@@ -25,9 +25,7 @@ func sq(in <-chan int) <-chan int {
 }
 
 func main() {
-	c := gen(2, 3, 6)
-	out := sq(c)
-	for n := range out {
+	for n := range sq(sq(gen(2, 3, 5))) {
 		fmt.Println(n)
 	}
 }
