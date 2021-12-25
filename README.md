@@ -118,6 +118,9 @@ An example how to merge several subsriptions into one `feed` with cancellation.
 
 `pipeline_03` is an example of early stopping - producers stop when consumer wants to stop earlier.
 
+`pipeline_04` is an example of a bounded parallelism: spawn a goroutine to read a file and
+calculate md5 sum for it in a directory tree with un upper bound on number of files/goroutines.
+
 The guidelines for pipeline construction:
 
 - stages close their outbound channels when all the send operations are done.
