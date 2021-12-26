@@ -126,6 +126,61 @@ The guidelines for pipeline construction:
 - stages close their outbound channels when all the send operations are done.
 - stages keep receiving values from inbound channels until those channels are closed or the senders are unblocked.
 
+# Context by Sameer Ajmani
+
+- [Go Concurrency Patterns: Context](https://go.dev/blog/context)
+
+```go
+// A Context carries a deadline, cancellation signal, and request-scoped values
+// across API boundaries. Its methods are safe for simultaneous use by multiple
+// goroutines.
+type Context interface {
+    // Done returns a channel that is closed when this Context is canceled
+    // or times out.
+    Done() <-chan struct{}
+
+    // Err indicates why this context was canceled, after the Done channel
+    // is closed.
+    Err() error
+
+    // Deadline returns the time when this Context will be canceled, if any.
+    Deadline() (deadline time.Time, ok bool)
+
+    // Value returns the value associated with key or nil if none.
+    Value(key interface{}) interface{}
+}
+```
+
+The `Done` method returns a channel that acts as a cancellation signal to functions running on behalf
+of the `Context`: when the channel is closed, the functions should abandon their work and return.
+
+The `Err` method returns an error indicating why the `Context` was canceled.
+
+A `Context` does *not* have a Cancel method for the same reason the Done channel is receive-only:
+the function receiving a cancellation signal is usually not the one that sends the signal. In particular,
+when a parent operation starts goroutines for sub-operations, those sub-operations should not be able to cancel the parent. Instead, the `WithCancel` function provides a way to cancel a new `Context` value.
+
+A Context is safe for simultaneous use by multiple goroutines. Code can pass a single `Context`
+to any number of goroutines and cancel that `Context` to signal all of them.
+
+The `Deadline` method allows functions to determine whether they should start work at all; if too little
+time is left, it may not be worthwhile. Code may also use a deadline to set timeouts for I/O operations.
+
+`Value` allows a `Context` to carry request-scoped data. That data must be safe for simultaneous
+use by multiple goroutines.
+
+**Context tree**
+
+```
+func Background() Context // never canceled
+|
+|\____func WithCancel(parent Context) (ctx Context, cancel CancelFunc)
+|
+|\____func WithTimeout(parent Context, timeout time.Duration) (Context, CancelFunc)
+|
+ \____func WithValue(parent Context, key interface{}, val interface{}) Context
+```
+
 # Share Memory by Communicating
 - [Codewalk](https://go.dev/doc/codewalk/sharemem/)
 
